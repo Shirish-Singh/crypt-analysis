@@ -14,11 +14,11 @@ ACCESS_TOKEN = configurations.ACCESS_TOKEN
 ACCESS_TOKEN_SECRET = configurations.ACCESS_TOKEN_SECRET
 WORDS=keywords.WORDS
 SRC_TYPE="TWEETER"
+SPAM_KEYWORDS=keywords.SPAM
 
 
 def cleanData(datajson):
   text=tweet_utils.get_some_text_cleaned(datajson);
-  print("-------------Tweet Cleaned Before " + datajson['text'] + " After " +text );
   datajson['text']=text;
   return datajson;
 
@@ -27,6 +27,11 @@ def preProcessData(datajson):
   datajson = cleanData(datajson);
   return datajson;
 
+
+def checkForSpam(datajson):
+  for w in SPAM_KEYWORDS:
+     if w  in datajson['text']:
+      return "true";
 
 
 class StreamListener(tweepy.StreamListener):
@@ -65,9 +70,16 @@ class StreamListener(tweepy.StreamListener):
             # insert the data into the mongoDB into a collection
             # if collection doesn't exist, it will be created.
             #Notice the _dict_ below it takes object and converts into may be json which is stored in mongodb.
-            db.twittersearch.insert((streamdata.__dict__))
+            if (checkForSpam(datajson)=='true'):
+                    db.spam.insert(streamdata.__dict__)
+                    print("SPAM DETECTED!!!!!!!!!!!!!!!!!!!!!!")
+
+            else:
+                   db.twittersearch.insert(streamdata.__dict__)
+
         except Exception as e:
-            print(e)
+                print(e)
+
 
 auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
 auth.set_access_token(ACCESS_TOKEN, ACCESS_TOKEN_SECRET)

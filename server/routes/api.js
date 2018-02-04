@@ -31,7 +31,7 @@ router.get(TS_REST_CALL, (req, res) => {
       .collection(DB_COLLECTION_NAME)
       .find({ "data.lang": "en" })
       .sort({ $natural: -1 })
-      .limit(5)
+      .limit(20)
       .toArray(function(findErr, result) {
         if (findErr) {
           console.log("Please check your db connection.");

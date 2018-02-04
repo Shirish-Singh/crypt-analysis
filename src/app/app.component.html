@@ -14,20 +14,14 @@
         <tr>
           <th>Created At</th>
           <th>Text</th>
-          <th>Reply count</th>
-          <th>Retweet count</th>
-          <th>Favorite count</th>
-          <th>Language count</th>
+          <th>Keywords</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor=" let streamdata of streamdatas">
           <td>{{streamdata.data.created_at}}</td>
           <td>{{streamdata.data.text}}</td>
-          <td>{{streamdata.data.reply_count}}</td>
-          <td>{{streamdata.data.retweet_count}}</td>
-          <td>{{streamdata.data.favorite_count}}</td>
-          <td>{{streamdata.data.lang}}</td>
+          <td>{{streamdata.keyword}}</td>
         </tr>
     </table>
   </div>
