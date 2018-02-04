@@ -12,7 +12,7 @@ import {DataService} from './services/data.service';
   declarations: [
     AppComponent
   //  TweetListComponent
-    
+
   ],
   imports: [
     BrowserModule,

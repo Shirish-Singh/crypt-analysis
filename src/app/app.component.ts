@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 // Import the DataService
 import { DataService } from './services/data.service';
+import { StreamData } from './model/streamdata';
 
 @Component({
   selector: 'app-root',
@@ -9,16 +10,11 @@ import { DataService } from './services/data.service';
 })
 export class AppComponent {
 // Define a users property to hold our user data
-tweets: Array<any>;
-
+streamdatas: StreamData[] = [];
 // Create an instance of the DataService through dependency injection
-constructor(private _dataService: DataService) {
-  // Access the Data Service's getUsers() method we defined
-  // this._dataService.getTweets()
-  //     .subscribe(res => this.tweets = res);
-  }
+constructor(private _dataService: DataService) {}
 
-  interval: any;
+interval: any;
 
   ngOnInit(): void {
     this.refreshData();
@@ -29,6 +25,11 @@ constructor(private _dataService: DataService) {
   }
 
   refreshData() {
-    this._dataService.getTweets().subscribe(record => this.tweets = record);
+    this._dataService.getTweets().subscribe(record => this.streamdatas = record);
   }
 }
+
+
+  // Access the Data Service's getUsers() method we defined
+  // this._dataService.getTweets()
+  //     .subscribe(res => this.tweets = res);

@@ -1,5 +1,35 @@
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
 <h1>Tweets Streaming</h1>
-<ul>
-    <li *ngFor=" let result of tweets">{{result.text}} </li>
-</ul>
-<h1>Tweets Streaming </h1>
+<div class="container">
+  <h2>Twitter Streams</h2>
+  <p>Live streaming of twitters...</p>
+  <div class="table-responsive">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Created At</th>
+          <th>Text</th>
+          <th>Reply count</th>
+          <th>Retweet count</th>
+          <th>Favorite count</th>
+          <th>Language count</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor=" let streamdata of streamdatas">
+          <td>{{streamdata.data.created_at}}</td>
+          <td>{{streamdata.data.text}}</td>
+          <td>{{streamdata.data.reply_count}}</td>
+          <td>{{streamdata.data.retweet_count}}</td>
+          <td>{{streamdata.data.favorite_count}}</td>
+          <td>{{streamdata.data.lang}}</td>
+        </tr>
+    </table>
+  </div>
+</div>
+<h1>Tweets Streaming ENDS</h1>

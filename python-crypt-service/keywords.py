@@ -1,0 +1,1 @@
+WORDS = ['#big','#BTC']

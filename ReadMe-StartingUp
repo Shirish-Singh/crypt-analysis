@@ -2,3 +2,8 @@
 -Go to crypto dir
 - type ng build to build and create dist folder
 -node server.js to start the server
+
+or
+
+--ng build
+--nodemon server.js
