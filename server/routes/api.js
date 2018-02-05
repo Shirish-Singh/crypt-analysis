@@ -22,8 +22,9 @@ let response = {
 };
 
 router.get(TS_REST_CALL, (req, res) => {
-  MongoClient.connect(DB_URL, function(err, client) {
-    if (err) throw err;
+  MongoClient.connect(DB_URL,
+    function(err, client) {
+    if (err)  throw err;
 
     var db = client.db(DB_NAME);
 
@@ -31,7 +32,6 @@ router.get(TS_REST_CALL, (req, res) => {
       .collection(DB_COLLECTION_NAME)
       .find({ "data.lang": "en" })
       .sort({ $natural: -1 })
-      .limit(20)
       .toArray(function(findErr, result) {
         if (findErr) {
           console.log("Please check your db connection.");

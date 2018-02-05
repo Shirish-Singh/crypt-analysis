@@ -6,6 +6,8 @@ import keywords
 from streamdata import StreamData
 import tweet_utils
 from pymongo import MongoClient
+from datetime import datetime
+import pytz
 
 MONGO_HOST= configurations.MONGO_HOST
 CONSUMER_KEY = configurations.CONSUMER_KEY
@@ -15,6 +17,10 @@ ACCESS_TOKEN_SECRET = configurations.ACCESS_TOKEN_SECRET
 WORDS=keywords.WORDS
 SRC_TYPE="TWEETER"
 SPAM_KEYWORDS=keywords.SPAM
+
+client = MongoClient(MONGO_HOST)
+# Use twitterdb database. If it doesn't exist, it will be created.
+db = client.twitterdb
 
 
 def cleanData(datajson):
@@ -37,6 +43,7 @@ def checkForSpam(datajson):
 class StreamListener(tweepy.StreamListener):
     # This is a class provided by tweepy to access the Twitter Streaming API.
 
+
     def on_connect(self):
         # Called initially to connect to the Streaming API
         print("You are now connected to the streaming API.")
@@ -46,14 +53,10 @@ class StreamListener(tweepy.StreamListener):
         print('An Error has occured: ' + repr(status_code))
         return False
 
+
     def on_data(self, data):
         # This is the meat of the script...it connects to your mongoDB and stores the tweet
         try:
-            streamdata = StreamData();
-            client = MongoClient(MONGO_HOST)
-            # Use twitterdb database. If it doesn't exist, it will be created.
-            db = client.twitterdb
-
             # Decode the JSON from Twitter
             datajson = json.loads(data)
             datajson=preProcessData(datajson);
@@ -63,17 +66,18 @@ class StreamListener(tweepy.StreamListener):
 
             hashtags = tweet_utils.get_hashtags(datajson);
             #Create Stream Data Object and set values
+            streamdata = StreamData();
             streamdata.keyword=hashtags;
             streamdata.data=datajson;
             streamdata.srcType=SRC_TYPE;
-
+            streamdata.createdDate = datetime.now(pytz.timezone('Asia/Kolkata'));
+            print(datetime.now(pytz.timezone('Asia/Kolkata')));
             # insert the data into the mongoDB into a collection
             # if collection doesn't exist, it will be created.
             #Notice the _dict_ below it takes object and converts into may be json which is stored in mongodb.
             if (checkForSpam(datajson)=='true'):
-                    db.spam.insert(streamdata.__dict__)
+                    #db.spam.insert(streamdata.__dict__)
                     print("SPAM DETECTED!!!!!!!!!!!!!!!!!!!!!!")
-
             else:
                    db.twittersearch.insert(streamdata.__dict__)
 
