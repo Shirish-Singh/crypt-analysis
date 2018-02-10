@@ -9,11 +9,13 @@ import { StreamData } from '../model/streamdata';
 export class DataService {
 
   result: any;
-
   constructor(private _http: Http) { }
-     getTweets(): Observable<StreamData[]> {
+
+  /**
+   * Get Tweets method
+   */
+  getTweets(): Observable<StreamData[]> {
       return this._http.get(RouterConstants.GET_RECORD_REST)
       .map(result => result.json());
   }
-
 }

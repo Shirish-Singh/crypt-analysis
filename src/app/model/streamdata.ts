@@ -1,5 +1,6 @@
 
 import { TweetData } from './TweetData';
+import { ExtendedData } from './extendedData';
 
 export class StreamData {
     data: TweetData;

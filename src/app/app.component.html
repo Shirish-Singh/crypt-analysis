@@ -4,26 +4,22 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
-<h1>Tweets Streaming</h1>
+<h1>Real Time Analytics</h1>
 <div class="container">
-  <h2>Twitter Streams</h2>
-  <p>Live streaming of twitters...</p>
-  <div class="table-responsive">
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Created At</th>
-          <th>Text</th>
-          <th>Keywords</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor=" let streamdata of streamdatas">
-          <td>{{streamdata.data.created_at}}</td>
-          <td>{{streamdata.data.text}}</td>
-          <td>{{streamdata.keyword}}</td>
-        </tr>
-    </table>
+    <div ngui-tab>
+      <div class='tabs'>
+          <div index='Live Streaming'>Live Streaming</div>
+          <div index='Important'>Important</div>
+          <div index='Sentiments'>Sentiments</div>
+          <div index='Market Analysis'>Market Analysis</div>
+          <div index='Prediction'>Prediction</div>
+      </div>
+      <div class='tabs-contents'>
+          <app-realtime-tweeter></app-realtime-tweeter>
+          <div contents='Important'>Important</div>
+          <div contents='Sentiments'>Sentiments</div>
+          <div contents='Market Analysis'>Market Analysis</div>
+          <div contents='Prediction'>Prediction</div>
+      </div>
   </div>
 </div>
-<h1>Tweets Streaming ENDS</h1>

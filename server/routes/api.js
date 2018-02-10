@@ -32,6 +32,7 @@ router.get(TS_REST_CALL, (req, res) => {
       .collection(DB_COLLECTION_NAME)
       .find({ "data.lang": "en" })
       .sort({ $natural: -1 })
+      .limit(10)
       .toArray(function(findErr, result) {
         if (findErr) {
           console.log("Please check your db connection.");
@@ -46,29 +47,3 @@ router.get(TS_REST_CALL, (req, res) => {
 
 module.exports = router;
 
-// Connect
-// const connection = (closure) => {
-//     return MongoClient.connect('mongodb://localhost:27017/twitter', (err, db) => {
-//         if (err) return console.log(err);
-
-//         closure(db);
-//     });
-// };
-
-// Error handling
-
-// Get users
-// router.get('/ts', (req, res) => {
-//     connection((db) => {
-//         db.collection('twittersearch')
-//             .find()
-//             .toArray()
-//             .then((users) => {
-//                 response.data = users;
-//                 res.json(response);
-//             })
-//             .catch((err) => {
-//                 sendError(err, res);
-//             });
-//     });
-// });
