@@ -3,3 +3,4 @@ class StreamData:
   keyword = []
   data = ""
   createdDate = ""
+  status = ""

@@ -4,9 +4,11 @@ const MongoClient = require("mongodb").MongoClient;
 const ObjectID = require("mongodb").ObjectID;
 
 const DB_URL = "mongodb://localhost:27017";
-const DB_NAME = "twitterdb";
-const DB_COLLECTION_NAME = "twittersearch";
-const TS_REST_CALL = "/ts";
+const DB_NAME = "analyticsDB";
+const TWITTER_DB_COLLECTION_NAME = "twittersearch";
+const SENTIMENT_DB_COLLECTION_NAME = "sentiments";
+const TS_REST_CALL ='/ts';
+const SENTIMENT_REST_CALL = '/sentiment';
 
 const sendError = (err, res) => {
   response.status = 501;
@@ -25,11 +27,9 @@ router.get(TS_REST_CALL, (req, res) => {
   MongoClient.connect(DB_URL,
     function(err, client) {
     if (err)  throw err;
-
     var db = client.db(DB_NAME);
-
     db
-      .collection(DB_COLLECTION_NAME)
+      .collection(TWITTER_DB_COLLECTION_NAME)
       .find({ "data.lang": "en" })
       .sort({ $natural: -1 })
       .limit(10)
@@ -44,6 +44,30 @@ router.get(TS_REST_CALL, (req, res) => {
       });
   });
 });
+
+
+router.get(SENTIMENT_REST_CALL, (req, res) => {
+  MongoClient.connect(DB_URL,
+    function(err, client) {
+    if (err)  throw err;
+    var db = client.db(DB_NAME);
+    db
+      .collection(SENTIMENT_DB_COLLECTION_NAME)
+      .find()
+      .sort({ $natural: -1 })
+      .limit(10)
+      .toArray(function(findErr, result) {
+        if (findErr) {
+          console.log("Please check your db connection.");
+          throw findErr;
+        }
+        console.log(result);
+        res.json(result);
+        //    client.close();
+      });
+  });
+});
+
 
 module.exports = router;
 

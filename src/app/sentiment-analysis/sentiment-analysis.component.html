@@ -1,0 +1,29 @@
+
+<div contents='sentiment-analysis'>
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Keywords</th>
+            <th>Poistive</th>
+            <th>Negative</th>
+            <th>Neutral</th>
+            <th>Language</th>
+            <th>Text</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor=" let sentimentData of sentimentdatas">
+            <td>{{sentimentData.keywords}}</td>
+            <td>{{sentimentData.positive}}</td>
+            <td>{{sentimentData.negative}}</td>
+            <td>{{sentimentData.neutral}}</td>
+            <td>{{sentimentData.lang}}</td>
+            <td>{{sentimentData.text}}</td>
+          </tr>
+      </table>
+    </div>
+</div>
+
+<!--
+    E:\DevApplications\git-crypto-proj\crypt-analysis\node_modules\sentiment -->
