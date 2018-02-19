@@ -1,2 +1,3 @@
-WORDS = ['#BTC','#btc']
+WORDS = ['#BTC', 'Bitcoin', '#ETH', 'Ethereum', '#LTC', 'Litecoin', '#DASH', 'DigitalCash', '#XMR', 'Monero', '#NXT', 'Nxt', '#ETC', 'Ethereum Classic', '#DOGE', 'Dogecoin', '#ZEC', 'ZCash', '#BTS', 'Bitshares', '#DGB', 'DigiByte', '#XRP', 'Ripple', '#BTCD', 'BitcoinDark', '#PPC', 'PeerCoin', '#CRAIG', 'CraigsCoin', '#XBS', 'Bitstake', '#XPY', 'PayCoin', '#PRC', 'ProsperCoin', '#YBC', 'YbCoin', '#DANK', 'DarkKush', '#GIVE', 'GiveCoin', '#KOBO', 'KoboCoin', '#DT', 'DarkToken', '#CETI', 'CETUS Coin', '#SUP', 'Supcoin', '#XPD', 'PetroDollar', '#TRX','Tron','#Ven','Vechain','#ICX','Icon']
+
 SPAM = ['JOIN ME','GIVEAWAY','GIVE WAY','#giveaway','Start with 150 GH/s for free on','Giveaway','Increase your capital Hurry up']

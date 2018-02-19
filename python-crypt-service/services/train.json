@@ -1,5 +1,45 @@
 [
-  {"text":"I love this sandwich.","label":"pos"},
-  {"text":"this is an amazing place!","label":"pos"},
-  {"text":"I do not like this restaurant.","label":"neg"}
- ]
+  {"text":"RT : JOIN ME &amp; #TEAMCRYPTO IN LOADING #ETC !!!!!!!!!!!!!!!!!","label":"spam"},
+  {"text":"RT : #Giveaway still on!....","label":"spam"},
+  {"text":"Follow+Retweet+Join Telegram https://t.co/0csROFWxZk   = 1,500 XVG.","label":"spam"},
+  {"text":"Join https://t.co/YBAScl0QBC and reach 1K Subs","label":"spam"},
+  {"text":"#RewardCoin Giveaway still on!!","label":"spam"},
+  {"text":"#XRP GIVEAWAY","label":"spam"},
+  {"text":"Our #Airdrop is worth $1,000,000 and started on 14th Feb.","label":"spam"},
+  {"text":"DON'T BE A #FOOL TO NOT JOIN","label":"spam"},
+  {"text":"-Retweet This Tweet","label":"spam"},
+  {"text":"#giveaway","label":"spam"},
+  {"text":"#GIVEAWAY #CONTEST","label":"spam"},
+  {"text":"#Giveaway #Live  for 100 winners #Airdrop #Bounty #Contest #free #btc","label":"spam"},
+  {"text":"#RewardCoin Giveaway still on!!","label":"spam"},
+  {"text":"Join my channel","label":"spam"},
+  {"text":"#GIVEAWAY of 100$ #BTC Voucher ","label":"spam"},
+  {"text":"To Join: Like and RT this post + FOLLOW + RT 5 ","label":"spam"},
+  {"text":"Retweet Follow and like. Winner at","label":"spam"},
+  {"text":"Bitcoin Giveaway (Winner selected in 24 hours)","label":"spam"},
+  {"text":"ENDS AT 500 RETWEETS…","label":"spam"},
+  {"text":"We will be doing a #giveaway","label":"spam"},
+  {"text":"Let's go VIRAL we are having a Giveaway","label":"spam"},
+  {"text":"are here to answer any questions and a big contest is almost finished","label":"spam"},
+
+
+
+  {"text":"will be a good Investment others comment","label":"ham"},
+  {"text":"Bitcoin should legal in india it's also part of digital india.","label":"ham"},
+  {"text":"It wont be long now before HTMLcoin takes off","label":"ham"},
+  {"text":"We are working hard to be as transparent as possible in a verifiable way! So far our ICO has been great!","label":"ham"},
+  {"text":"Coin with the most potential?","label":"ham"},
+  {"text":" The  ICO has come to an end. Thank you all for making this the most successful blockchain marketing ICO ","label":"ham"},
+  {"text":"Anonymous Cryptocurrency Trader Buys","label":"ham"},
+  {"text":"I believe we're ready for a bull run","label":"ham"},
+  {"text":"I believe we're ready for a bearish run","label":"ham"},
+  {"text":"still correcting on the","label":"ham"},
+  {"text":"cryptos","label":"ham"},
+  {"text":"seems like","label":"ham"},
+  {"text":"Moon","label":"ham"},
+  {"text":"Mooning","label":"ham"},
+  {"text":"bull run","label":"ham"},
+  {"text":"good","label":"ham"}
+
+
+   ]

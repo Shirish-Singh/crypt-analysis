@@ -1,5 +1,6 @@
 from __future__ import print_function
 from  services.dbservice import DBConnection
+from  services.spamdetectionservice import SpamDetection
 import tweepy
 import json
 from configurations import configuration
@@ -9,6 +10,7 @@ from utils import tweetutils
 from datetime import datetime
 import pytz
 
+
 CONSUMER_KEY = configuration.CONSUMER_KEY
 CONSUMER_SECRET = configuration.CONSUMER_SECRET
 ACCESS_TOKEN = configuration.ACCESS_TOKEN
@@ -17,6 +19,7 @@ WORDS= keywords.WORDS
 SRC_TYPE="TWEETER"
 SPAM_KEYWORDS= keywords.SPAM
 dbconnection = DBConnection();
+myobjectx = SpamDetection();
 
 def cleanData(datajson):
   text= tweetutils.get_some_text_cleaned(datajson);
@@ -29,10 +32,14 @@ def preProcessData(datajson):
   return datajson;
 
 
-def checkForSpam(datajson):
+def checkForSpamManual(datajson):
   for w in SPAM_KEYWORDS:
      if w  in datajson['text']:
       return "true";
+
+
+def checkForSpamByNB(datajson):
+   return myobjectx.isSpam(datajson['text'])
 
 
 class StreamListener(tweepy.StreamListener):
@@ -56,7 +63,7 @@ class StreamListener(tweepy.StreamListener):
             datajson=preProcessData(datajson);
             # grab the 'created_at' data from the Tweet to use for display
             created_at = datajson['created_at']
-            print("Tweet collected at " + str(created_at))
+            #print("Tweet collected at " + str(created_at))
 
             hashtags = tweetutils.get_hashtags(datajson);
             #Create Stream Data Object and set values
@@ -66,13 +73,13 @@ class StreamListener(tweepy.StreamListener):
             streamdata.srcType=SRC_TYPE;
             streamdata.createdDate = datetime.now(pytz.timezone('Asia/Kolkata'));
             streamdata.status = "NEW"
-            print(datetime.now(pytz.timezone('Asia/Kolkata')));
+            #print(datetime.now(pytz.timezone('Asia/Kolkata')));
             # insert the data into the mongoDB into a collection
             # if collection doesn't exist, it will be created.
             #Notice the _dict_ below it takes object and converts into may be json which is stored in mongodb.
-            if (checkForSpam(datajson)=='true'):
-                    #db.spam.insert(streamdata.__dict__)
-                    print("SPAM DETECTED!!!!!!!!!!!!!!!!!!!!!!")
+            if (checkForSpamByNB(datajson)=='spam'):
+                   #dbconnection.getConnection().spam.insert(streamdata.__dict__)
+                    print("SPAM DETECTED!")
             else:
               dbconnection.getConnection().twittersearch.insert(streamdata.__dict__)
 
