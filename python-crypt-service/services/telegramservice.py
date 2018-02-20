@@ -54,8 +54,6 @@ mb = MainBot()
 #mb.print();
 mb.fetchGroupIds();
 
-#534216085:AAE5mANdWFvu604Gs_q1pPSDNUgsAUpQwa4
-
 
 # # Ensure you're authorized
 #         if not MainBot.client.is_user_authorized():
