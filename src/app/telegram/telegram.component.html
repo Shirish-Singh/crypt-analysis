@@ -1,0 +1,20 @@
+<div contents='Telegram'>
+  <div class="table-responsive">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Created At</th>
+            <th>Keywords</th>
+            <th>Text</th>
+            <th>Count</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor=" let streamdata of streamdatas">
+            <td>{{streamdata.createdDate}}</td>
+            <td>{{streamdata.keyword}}</td>
+            <td>{{streamdata.data}}</td>
+            <td>{{streamdata.count}}</td>
+          </tr>
+      </table>
+    </div>

@@ -6,12 +6,14 @@ import { HttpModule } from '@angular/http';
 import {DataService} from './services/data.service';
 import { RealtimeTweeterComponent } from './realtime-tweeter/realtime-tweeter.component';
 import { SentimentAnalysisComponent } from './sentiment-analysis/sentiment-analysis.component';
+import { TelegramComponent } from './telegram/telegram.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     RealtimeTweeterComponent,
-    SentimentAnalysisComponent
+    SentimentAnalysisComponent,
+    TelegramComponent
   ],
   imports: [
     BrowserModule,

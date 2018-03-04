@@ -4,3 +4,4 @@ class StreamData:
   data = ""
   createdDate = ""
   status = ""
+

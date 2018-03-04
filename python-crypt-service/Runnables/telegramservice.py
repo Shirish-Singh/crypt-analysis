@@ -1,4 +1,6 @@
 import telegram
+from nltk.corpus import teardown_module
+
 from configurations import configuration
 from configurations import keywords
 from telethon import TelegramClient,events
@@ -8,6 +10,8 @@ from telethon.errors.rpc_error_list import  SessionPasswordNeededError
 from models.streamdata import StreamData
 from datetime import datetime
 import pytz
+
+from models.telegramdata import TelegramData
 from  services.dbservice import DBConnection
 from telethon.network import ConnectionMode
 from datetime import datetime, timedelta
@@ -26,16 +30,68 @@ from telethon.tl.types import (
     UpdateEditMessage, UpdateEditChannelMessage, UpdateShort, Updates
 )
 
-SRC_TYPE="TWEETER"
+from utils.LRUCache import LRUCache
+
+SRC_TYPE="TELEGRAM"
 dbconnection = DBConnection();
 
 SEARCH_WORDS = ['buy', '#buy']
+messageIdSet = set();
 
+cache = LRUCache(10000)
 
 def isValidMessage(message):
   if any( x in message.lower() for x in SEARCH_WORDS):
     return True
   return False
+
+
+def isNoDuplicate(message):
+  messageID=message.id; #27
+  channel_id=message.to_id.channel_id; #123
+  if cache.get(channel_id) == -1:
+      cache_mesage_id=cache.get(channel_id)
+      if cache_mesage_id == -1:
+            cache.set(channel_id,messageID)
+            return True;
+      if messageID > cache_mesage_id:
+        cache.set(channel_id, messageID)
+        return True;
+      else:
+       return False;
+  else:
+    cache_mesage_id = cache.get(channel_id)
+    if cache_mesage_id == -1:
+      cache.set(channel_id, messageID)
+      return True;
+    if messageID > cache_mesage_id:
+      cache.set(channel_id, messageID)
+      return True;
+    else:
+       return False;
+
+
+def keywordDoesntExist(keyword):
+  mongoRecord = dbconnection.getConnection().telegramData.find({"keyword": keyword}).count();
+  if mongoRecord == 0:
+    return True;
+  return False;
+
+def insertTelegramData(keyword, createdDate, data):
+  if keywordDoesntExist(keyword):
+    telegramData = TelegramData();
+    telegramData.keyword = keyword;
+    telegramData.createdDate = createdDate;
+    telegramData.data += data;
+    telegramData.count += 1;
+    dbconnection.getConnection().telegramData.insert(telegramData.__dict__)
+  else:
+    mongoRecord = dbconnection.getConnection().telegramData.find({'keyword':keyword});
+    for telegramData in mongoRecord:
+      tempCount = telegramData['count'] + 1;
+      tempData= telegramData['data'] + data;
+      dbconnection.getConnection().telegramData.update_one({"_id":telegramData['_id']}, {"$set":{ "data":tempData, "count":tempCount }})
+
 
 class MainBot:
     # (1) Use your own values here
@@ -49,12 +105,12 @@ class MainBot:
     client = TelegramClient(username, api_id, api_hash,ConnectionMode.TCP_FULL,
                  False,
                  None,
-                 1,timedelta(seconds=5),spawn_read_thread=False)
+                 1,timedelta(seconds=1),spawn_read_thread=False)
 
     def connect(self):
         # Getting information about yourself
         print(MainBot.client.get_me().stringify())
-        MainBot.client.send_message(MainBot.username, 'Hello Shirish')
+        MainBot.client.send_message(MainBot.username, '------TELEGRAM----------')
 
     def print(self):
         bot = telegram.Bot(token=configuration.TOKEN)
@@ -66,15 +122,14 @@ class MainBot:
 
     def fetchGroupIds(self):
        dialog_count = 1000
-       #entities = MainBot.client.get_dialogs(dialog_count)
-       entities = MainBot.client.get_dialogs(1000, None,0,InputPeerEmpty())
+       utc_datetime = datetime.utcnow() - timedelta(seconds = 10)
+       entities = MainBot.client.get_dialogs(dialog_count, None,0,InputPeerEmpty())
        for i, entity in enumerate(entities):
          i += 1  # 1-based index
-         #print(entity.name)
-         #print(entity.message)
          if entity.message is not None and \
          hasattr(entity.message, 'message') and \
          isValidMessage(entity.message.message):
+           if isNoDuplicate(entity.message):
              streamdata = StreamData();
              streamdata.data = entity.message.message
              streamdata.keyword = MainBot.fetchKeywords(entity.message.message);
@@ -82,8 +137,11 @@ class MainBot:
              streamdata.createdDate = datetime.now(pytz.timezone('Asia/Kolkata'));
              streamdata.status = "NEW"
              #dbconnection.getConnection().twittersearch.insert(streamdata.__dict__)
-             print('>>>>>'+streamdata.keyword)
+             insertTelegramData(streamdata.keyword,streamdata.createdDate,streamdata.data);
+             print("-----------------------------------------------------")
+             print(streamdata.keyword)
              print(streamdata.data)
+             print("-----------------------------------------------------")
 
     def fetchKeywords(message):
       for x in keywords.TELEGRAM_WORDS:
@@ -93,7 +151,7 @@ class MainBot:
 
     @client.on(events.Raw)
     def my_event_handler(event):
-      print('event occured')
+      #print('event occured')
       mb = MainBot()
       mb.fetchGroupIds();
 
